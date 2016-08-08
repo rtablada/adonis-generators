@@ -1,14 +1,5 @@
 'use strict';
 
-/**
- * adonis-commands
- *
- * (c) Harminder Virk <virk@adonisjs.com>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
-*/
-
 /* global describe, it, before, beforeEach, after, context */
 const chai = require('chai');
 const expect = chai.expect;
