@@ -1,0 +1,9 @@
+{
+  "extends": "rtablada",
+  "globals": {
+    "use": "true"
+  },
+  "env": {
+    "node": true
+  }
+}
