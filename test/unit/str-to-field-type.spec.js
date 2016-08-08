@@ -78,4 +78,30 @@ describe('strToFieldType', () => {
       },
     });
   });
+
+  it('should know how to parse belongsTo relationships with no foreignKey', () => {
+    expect(strToFieldType(fieldStrings.belongsToWithModel)).to.deep.equal({
+      name: 'author',
+      type: 'relation',
+      raw: 'author:belongsTo:User',
+      relation: {
+        type: 'belongsTo',
+        modelName: 'User',
+        foreignKey: 'user_id',
+      },
+    });
+  });
+
+  it('should know how to parse hasMany relationships with no foreignKey', () => {
+    expect(strToFieldType(fieldStrings.hasManyWithModel)).to.deep.equal({
+      name: 'startups',
+      type: 'relation',
+      raw: 'startups:hasMany:Business',
+      relation: {
+        type: 'hasMany',
+        modelName: 'Business',
+        foreignKey: 'business_id',
+      },
+    });
+  });
 });

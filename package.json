@@ -39,6 +39,7 @@
     "mocha": "^2.4.5"
   },
   "dependencies": {
+    "change-case": "^3.0.0",
     "co-fs-extra": "^1.2.1",
     "dotenv": "^2.0.0",
     "hogan.js": "^3.0.2",

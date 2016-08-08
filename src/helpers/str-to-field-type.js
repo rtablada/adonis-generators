@@ -1,3 +1,5 @@
+const changeCase = require('change-case');
+
 const relationshipTypes = [
   'belongsTo',
   'hasMany',
@@ -5,11 +7,12 @@ const relationshipTypes = [
 ];
 
 module.exports = function strToFieldType(str) {
-  const [name, typeName, modelName, foreignKey] = str.split(':');
+  const [name, typeName, modelName, foreignKeyGuess] = str.split(':');
   let relation;
   let type;
 
   if (relationshipTypes.includes(typeName)) {
+    const foreignKey = foreignKeyGuess || changeCase.snake(`${modelName}_id`);
     relation = {
       type: typeName,
       modelName,
