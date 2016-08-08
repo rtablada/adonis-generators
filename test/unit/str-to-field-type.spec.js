@@ -104,4 +104,30 @@ describe('strToFieldType', () => {
       },
     });
   });
+
+  it('should know how to parse belongsTo relationships with no model', () => {
+    expect(strToFieldType(fieldStrings.belongsTo)).to.deep.equal({
+      name: 'post',
+      type: 'relation',
+      raw: 'post:belongsTo',
+      relation: {
+        type: 'belongsTo',
+        modelName: 'Post',
+        foreignKey: 'post_id',
+      },
+    });
+  });
+
+  it('should know how to parse hasMany relationships with no model', () => {
+    expect(strToFieldType(fieldStrings.hasMany)).to.deep.equal({
+      name: 'dogs',
+      type: 'relation',
+      raw: 'dogs:hasMany',
+      relation: {
+        type: 'hasMany',
+        modelName: 'Dog',
+        foreignKey: 'dog_id',
+      },
+    });
+  });
 });

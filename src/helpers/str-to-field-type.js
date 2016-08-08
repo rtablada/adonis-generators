@@ -1,4 +1,4 @@
-const changeCase = require('change-case');
+const inflect = require('i')();
 
 const relationshipTypes = [
   'belongsTo',
@@ -7,12 +7,13 @@ const relationshipTypes = [
 ];
 
 module.exports = function strToFieldType(str) {
-  const [name, typeName, modelName, foreignKeyGuess] = str.split(':');
+  const [name, typeName, modelNameGuess, foreignKeyGuess] = str.split(':');
   let relation;
   let type;
 
   if (relationshipTypes.includes(typeName)) {
-    const foreignKey = foreignKeyGuess || changeCase.snake(`${modelName}_id`);
+    const modelName = modelNameGuess || inflect.singularize(inflect.classify(name));
+    const foreignKey = foreignKeyGuess || inflect.underscore(`${modelName}_id`);
     relation = {
       type: typeName,
       modelName,
