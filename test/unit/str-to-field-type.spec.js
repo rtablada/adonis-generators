@@ -11,7 +11,6 @@
 
 /* global describe, it, before, beforeEach, after, context */
 const chai = require('chai');
-const path = require('path');
 const expect = chai.expect;
 const strToFieldType = require('../../src/helpers/str-to-field-type');
 
@@ -30,22 +29,24 @@ describe('strToFieldType', () => {
     hasManyWithModelAndForeignKey: 'groups:hasMany:Cohort:instructor_id',
   };
 
+  const currentModelName = 'Pokemon';
+
   it('should know how to parse raw data types', () => {
-    expect(strToFieldType(fieldStrings.integer)).to.deep.equal({
+    expect(strToFieldType(fieldStrings.integer, currentModelName)).to.deep.equal({
       name: 'age',
       type: 'integer',
       raw: 'age:integer',
       relation: undefined,
     });
 
-    expect(strToFieldType(fieldStrings.string)).to.deep.equal({
+    expect(strToFieldType(fieldStrings.string, currentModelName)).to.deep.equal({
       name: 'name',
       type: 'string',
       raw: 'name:string',
       relation: undefined,
     });
 
-    expect(strToFieldType(fieldStrings.boolean)).to.deep.equal({
+    expect(strToFieldType(fieldStrings.boolean, currentModelName)).to.deep.equal({
       name: 'drive',
       type: 'boolean',
       raw: 'drive:boolean',
@@ -54,7 +55,7 @@ describe('strToFieldType', () => {
   });
 
   it('should know how to parse belongsTo relationships with all fields', () => {
-    expect(strToFieldType(fieldStrings.belongsToWithModelAndForeignKey)).to.deep.equal({
+    expect(strToFieldType(fieldStrings.belongsToWithModelAndForeignKey, currentModelName)).to.deep.equal({
       name: 'teacher',
       type: 'relation',
       raw: 'teacher:belongsTo:User:instructor_id',
@@ -67,7 +68,7 @@ describe('strToFieldType', () => {
   });
 
   it('should know how to parse hasMany relationships with all fields', () => {
-    expect(strToFieldType(fieldStrings.hasManyWithModelAndForeignKey)).to.deep.equal({
+    expect(strToFieldType(fieldStrings.hasManyWithModelAndForeignKey, currentModelName)).to.deep.equal({
       name: 'groups',
       type: 'relation',
       raw: 'groups:hasMany:Cohort:instructor_id',
@@ -80,7 +81,7 @@ describe('strToFieldType', () => {
   });
 
   it('should know how to parse belongsTo relationships with no foreignKey', () => {
-    expect(strToFieldType(fieldStrings.belongsToWithModel)).to.deep.equal({
+    expect(strToFieldType(fieldStrings.belongsToWithModel, currentModelName)).to.deep.equal({
       name: 'author',
       type: 'relation',
       raw: 'author:belongsTo:User',
@@ -93,20 +94,20 @@ describe('strToFieldType', () => {
   });
 
   it('should know how to parse hasMany relationships with no foreignKey', () => {
-    expect(strToFieldType(fieldStrings.hasManyWithModel)).to.deep.equal({
+    expect(strToFieldType(fieldStrings.hasManyWithModel, currentModelName)).to.deep.equal({
       name: 'startups',
       type: 'relation',
       raw: 'startups:hasMany:Business',
       relation: {
         type: 'hasMany',
         modelName: 'Business',
-        foreignKey: 'business_id',
+        foreignKey: 'pokemon_id',
       },
     });
   });
 
   it('should know how to parse belongsTo relationships with no model', () => {
-    expect(strToFieldType(fieldStrings.belongsTo)).to.deep.equal({
+    expect(strToFieldType(fieldStrings.belongsTo, currentModelName)).to.deep.equal({
       name: 'post',
       type: 'relation',
       raw: 'post:belongsTo',
@@ -119,14 +120,14 @@ describe('strToFieldType', () => {
   });
 
   it('should know how to parse hasMany relationships with no model', () => {
-    expect(strToFieldType(fieldStrings.hasMany)).to.deep.equal({
+    expect(strToFieldType(fieldStrings.hasMany, currentModelName)).to.deep.equal({
       name: 'dogs',
       type: 'relation',
       raw: 'dogs:hasMany',
       relation: {
         type: 'hasMany',
         modelName: 'Dog',
-        foreignKey: 'dog_id',
+        foreignKey: 'pokemon_id',
       },
     });
   });

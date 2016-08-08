@@ -6,14 +6,21 @@ const relationshipTypes = [
   'hasOne',
 ];
 
-module.exports = function strToFieldType(str) {
+module.exports = function strToFieldType(str, currentModelName) {
   const [name, typeName, modelNameGuess, foreignKeyGuess] = str.split(':');
   let relation;
   let type;
 
   if (relationshipTypes.includes(typeName)) {
+    let foreignKeyModel = currentModelName;
+
     const modelName = modelNameGuess || inflect.singularize(inflect.classify(name));
-    const foreignKey = foreignKeyGuess || inflect.underscore(`${modelName}_id`);
+
+    if (typeName === 'belongsTo') {
+      foreignKeyModel = modelName;
+    }
+
+    const foreignKey = foreignKeyGuess || inflect.underscore(`${foreignKeyModel}_id`);
     relation = {
       type: typeName,
       modelName,
