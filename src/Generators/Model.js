@@ -23,10 +23,7 @@ class ModelGenerator extends BaseGenerator {
    */
   get signature() {
     const migrationsFlag = '{-m,--migration?:Create migration for a given model}';
-    const tableFlag = '{-t,--table=@value:Specify an optional table name for the model}';
-    const connectionFlag = '{-c, --connection=@value:Specify an optional connection for the model}';
-    const templateFlag = '{--template=@value:Path to custom template for model file}';
-    return `make:model {name} ${migrationsFlag} ${tableFlag} ${connectionFlag} ${templateFlag}`;
+    return `make:model {name} ${migrationsFlag}`;
   }
 
   /**

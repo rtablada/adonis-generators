@@ -22,11 +22,11 @@ describe('strToFieldType', () => {
 
     belongsTo: 'post:belongsTo',
     belongsToWithModel: 'author:belongsTo:User',
-    belongsToWithModelAndForeignKey: 'teacher:belongsTo:User:instructor_id',
+    belongsToWithForeignKey: 'teacher:belongsTo:User:instructor_id',
 
     hasMany: 'dogs:hasMany',
     hasManyWithModel: 'startups:hasMany:Business',
-    hasManyWithModelAndForeignKey: 'groups:hasMany:Cohort:instructor_id',
+    hasManyWithForeignKey: 'groups:hasMany:Cohort:instructor_id',
   };
 
   const currentModelName = 'Pokemon';
@@ -55,7 +55,7 @@ describe('strToFieldType', () => {
   });
 
   it('should know how to parse belongsTo relationships with all fields', () => {
-    expect(strToFieldType(fieldStrings.belongsToWithModelAndForeignKey, currentModelName)).to.deep.equal({
+    expect(strToFieldType(fieldStrings.belongsToWithForeignKey, currentModelName)).to.deep.equal({
       name: 'teacher',
       type: 'relation',
       raw: 'teacher:belongsTo:User:instructor_id',
@@ -68,7 +68,7 @@ describe('strToFieldType', () => {
   });
 
   it('should know how to parse hasMany relationships with all fields', () => {
-    expect(strToFieldType(fieldStrings.hasManyWithModelAndForeignKey, currentModelName)).to.deep.equal({
+    expect(strToFieldType(fieldStrings.hasManyWithForeignKey, currentModelName)).to.deep.equal({
       name: 'groups',
       type: 'relation',
       raw: 'groups:hasMany:Cohort:instructor_id',
