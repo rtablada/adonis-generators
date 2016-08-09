@@ -20,16 +20,11 @@ class GeneratorsProvider extends ServiceProvider {
 
   * register() {
     this.generators.forEach((generator) => {
-      this.app.bind(`Adonis/Commands/Make:${generator}`, (app) => {
+      this.app.bind(`AdonisGenerators/Generate:${generator}`, (app) => {
         const Helpers = app.use('Adonis/Src/Helpers');
         const Generator = require(`../src/Generators/${generator}`);
         return new Generator(Helpers);
       });
-    });
-    this.app.bind('Adonis/Commands/Key:Generate', (app) => {
-      const KeyGenerator = require('../src/Generators/Key');
-      const Helpers = app.use('Adonis/Src/Helpers');
-      return new KeyGenerator(Helpers);
     });
   }
 

@@ -57,8 +57,8 @@ setup.registerProviders = () => {
 
 setup.registerCommands = () => {
   Ace.register([
-    'Adonis/Commands/Make:Migration',
-    'Adonis/Commands/Make:Model',
+    'AdonisGenerators/Generate:Migration',
+    'AdonisGenerators/Generate:Model',
   ]);
 };
 

@@ -16,18 +16,18 @@ require('co-mocha');
 
 describe('Generators', () => {
   before(function * () {
-    yield setup.start();
+    // yield setup.start();
     yield setup.registerProviders();
     setup.registerCommands();
   });
 
   after(function * () {
-    yield setup.end();
+    // yield setup.end();
   });
 
   context('Migration', () => {
     it('should create a new migration', function * () {
-      yield setup.invokeCommand('make:migration', ['User'], { create: 'users' });
+      yield setup.invokeCommand('g:migration', ['User']);
       const UserSchema = require('./app/migrations/User.js');
       expect(UserSchema.name).to.equal('UserSchema');
       expect(typeof (new UserSchema().up)).to.equal('function');

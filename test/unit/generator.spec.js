@@ -115,8 +115,18 @@ describe('Generator', () => {
       Ioc.bind('Schema', () => Schema);
     });
 
-    it('should create a migrations file', function * () {
+    function createMigrationGenerator() {
       const migrationGen = new MigrationGenerator(Helpers);
+      migrationGen.command = {
+        parent: {
+          args: [],
+        },
+      };
+      return migrationGen;
+    }
+
+    it('should create a migrations file', function * () {
+      const migrationGen = createMigrationGenerator();
       yield migrationGen.handle({ name: 'User' }, {});
       const Migration = require(Helpers.migrationsPath('User'));
       expect(Migration.name).to.equal('UserSchema');
@@ -125,19 +135,8 @@ describe('Generator', () => {
       expect(migrationInstance.down).to.be.a('function');
     });
 
-    it('should define user_table as the table name for the migration', function * () {
-      const migrationGen = new MigrationGenerator(Helpers);
-      yield migrationGen.handle({ name: 'UserTable' }, {});
-      const Migration = require(Helpers.migrationsPath('UserTable'));
-      expect(Migration.name).to.equal('UserTableSchema');
-      const migrationInstance = new Migration();
-      migrationInstance.up();
-      expect(migrationInstance.payload.method).to.equal('table');
-      expect(migrationInstance.payload.table).to.equal('user_table');
-    });
-
     it('should call create method when passing --create flag', function * () {
-      const migrationGen = new MigrationGenerator(Helpers);
+      const migrationGen = createMigrationGenerator();
       yield migrationGen.handle({ name: 'Account' }, { create: 'accounts' });
       const Migration = require(Helpers.migrationsPath('Account'));
       expect(Migration.name).to.equal('AccountSchema');
@@ -145,31 +144,6 @@ describe('Generator', () => {
       migrationInstance.up();
       expect(migrationInstance.payload.method).to.equal('create');
       expect(migrationInstance.payload.table).to.equal('accounts');
-    });
-
-    it('should define the static connection method when --connection flag is passed',
-      function * () {
-        const migrationGen = new MigrationGenerator(Helpers);
-        yield migrationGen.handle({ name: 'Profile' }, { create: 'profiles', connection: 'Mysql' });
-        const Migration = require(Helpers.migrationsPath('Profile'));
-        expect(Migration.name).to.equal('ProfileSchema');
-        expect(Migration.connection).to.equal('Mysql');
-      });
-
-    it('should create a migrations file with given template', function * () {
-      const migrationGen = new MigrationGenerator(Helpers);
-      const mustacheContents = `'use strict'
-      class Foo {
-      }
-      module.exports = Foo
-      `;
-
-      yield fs.outputFile(path.join(__dirname, './app/templates/custom.mustache'),
-        mustacheContents);
-      yield migrationGen.handle({ name: 'Foo' },
-        { template: path.join(__dirname, './app/templates/custom.mustache') });
-      const Migration = require(Helpers.migrationsPath('Foo'));
-      expect(Migration.name).to.equal('Foo');
     });
   });
 });
