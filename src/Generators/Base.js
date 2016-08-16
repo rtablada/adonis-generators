@@ -54,6 +54,7 @@ class Base extends Command {
     baseName = i[method] ? i[method](baseName) : baseName;
     const entityName = needPrefix ? i.camelize(`${baseName}_${entity}`) : i.camelize(baseName);
     nameArr.push(entityName);
+
     return { entityPath: nameArr.join(path.sep), entityName };
   }
 
@@ -127,6 +128,7 @@ class Base extends Command {
    */
   _incrementalPath(toPath) {
     const regeExp = new RegExp(`${this.helpers.basePath()}${path.sep}?`);
+
     return toPath.replace(regeExp, '');
   }
 

@@ -122,6 +122,7 @@ describe('Generator', () => {
           args: [],
         },
       };
+
       return migrationGen;
     }
 

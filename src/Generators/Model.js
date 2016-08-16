@@ -23,6 +23,7 @@ class ModelGenerator extends BaseGenerator {
    */
   get signature() {
     const migrationsFlag = '{-m,--migration?:Create migration for a given model}';
+
     return `make:model {name} ${migrationsFlag}`;
   }
 
