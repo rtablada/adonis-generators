@@ -36,7 +36,7 @@ class MigrationGenerator extends BaseGenerator {
    */
   * handle(args, options = {}) {
     const name = args.name;
-    const fieldStrs = args['fields...'];
+    const fieldStrs = args['fields...'] || [];
     const entity = this._makeEntityName(name, 'migration', false);
     const toPath = this.helpers.migrationsPath(`${new Date().getTime()}_${name}.js`);
     const template = 'migration';

@@ -27,7 +27,7 @@ describe('Generators', () => {
 
   context('Migration', () => {
     it('should create a new migration', function * () {
-      yield setup.invokeCommand('g:migration', ['User']);
+      yield setup.invokeCommand('g:migration', ['User', ['email:string']]);
       const UserSchema = require('./app/migrations/User.js');
       expect(UserSchema.name).to.equal('UserSchema');
       expect(typeof (new UserSchema().up)).to.equal('function');

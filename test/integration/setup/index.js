@@ -49,6 +49,7 @@ setup.registerProviders = () => {
   fold.Ioc.bind('Lucid', () => Lucid);
   fold.Ioc.bind('Factory', () => {});
   fold.Ioc.alias('Command', 'Adonis/Src/Command');
+
   return fold.Registrar.register([
     'adonis-ace/providers/CommandProvider',
     path.join(__dirname, '../../../providers/GeneratorsProvider'),
