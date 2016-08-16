@@ -34,7 +34,7 @@
     "commander": "^2.9.0",
     "cz-conventional-changelog": "^1.1.5",
     "eslint": "^3.2.2",
-    "eslint-config-rtablada": "^2.0.0",
+    "eslint-config-rtablada": "^3.1.0",
     "istanbul": "^0.4.2",
     "mocha": "^2.4.5"
   },
@@ -44,6 +44,7 @@
     "dotenv": "^2.0.0",
     "hogan.js": "^3.0.2",
     "i": "^0.3.5",
+    "inflect": "^0.3.0",
     "randomstring": "^1.1.4",
     "repl-plus": "^0.2.0"
   },
