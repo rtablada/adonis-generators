@@ -16,13 +16,13 @@ require('co-mocha');
 
 describe('Generators', () => {
   before(function * () {
-    // yield setup.start();
+    yield setup.start();
     yield setup.registerProviders();
     setup.registerCommands();
   });
 
   after(function * () {
-    // yield setup.end();
+    yield setup.end();
   });
 
   context('Migration', () => {

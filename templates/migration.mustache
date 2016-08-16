@@ -8,7 +8,7 @@ class {{name}}Schema extends Schema {
     this.create('{{table}}', (table) => {
       table.increments();
       {{#fields}}
-      {{.}}
+      {{{.}}}
       {{/fields}}
       table.timestamps();
     });

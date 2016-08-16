@@ -13,7 +13,7 @@ class MigrationGenerator extends BaseGenerator {
    * @public
    */
   get signature() {
-    return 'g:migration {name}';
+    return 'g:migration rmdir {name} {fields...}';
   }
 
   /**
@@ -36,11 +36,11 @@ class MigrationGenerator extends BaseGenerator {
    */
   * handle(args, options = {}) {
     const name = args.name;
+    const fieldStrs = args['fields...'];
     const entity = this._makeEntityName(name, 'migration', false);
     const toPath = this.helpers.migrationsPath(`${new Date().getTime()}_${name}.js`);
     const template = 'migration';
 
-    const [, ...fieldStrs] = this.command.parent.args || [];
     const fields = fieldStrs.map(toFieldType).map(toTableField);
 
     const templateOptions = {
