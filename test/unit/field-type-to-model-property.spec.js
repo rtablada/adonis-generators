@@ -47,6 +47,17 @@ describe('fieldTypeToModelProperty', () => {
         foreignKey: 'pokemon_id',
       },
     },
+
+    hasOne: {
+      name: 'pet',
+      type: 'relation',
+      raw: 'pet:hasOne:Dog',
+      relation: {
+        type: 'hasOne',
+        modelName: 'Dog',
+        foreignKey: 'dog_id',
+      },
+    },
   };
 
   it('should know how to parse raw data types', () => {
@@ -56,5 +67,20 @@ describe('fieldTypeToModelProperty', () => {
       .equal('');
     expect(toModelProperty(fieldTypes.boolean)).to
       .equal('');
+  });
+
+  it('should know how to parse belongsTo relationships', () => {
+    expect(toModelProperty(fieldTypes.belongsTo)).to
+      .equal("teacher() {\n    return this.belongsTo('App/Model/User', 'instructor_id');\n  }");
+  });
+
+  it('should know how to parse hasMany relationships', () => {
+    expect(toModelProperty(fieldTypes.hasMany)).to
+      .equal("startups() {\n    return this.hasMany('App/Model/Business', 'pokemon_id');\n  }");
+  });
+
+  it('should know how to parse hasOne relationships', () => {
+    expect(toModelProperty(fieldTypes.hasOne)).to
+      .equal("pet() {\n    return this.hasOne('App/Model/Dog', 'dog_id');\n  }");
   });
 });
