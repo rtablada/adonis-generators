@@ -4,7 +4,7 @@ const Schema = use('Schema');
 
 class {{name}}Schema extends Schema {
 
-  up () {
+  up() {
     this.create('{{table}}', (table) => {
       table.increments();
       {{#fields}}
@@ -14,10 +14,10 @@ class {{name}}Schema extends Schema {
     });
   }
 
-  down () {
+  down() {
     this.drop('{{table}}');
   }
 
 }
 
-module.exports = {{name}}Schema
+module.exports = {{name}}Schema;
