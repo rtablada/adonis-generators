@@ -13,7 +13,7 @@ class MigrationGenerator extends BaseGenerator {
    * @public
    */
   get signature() {
-    return 'g:migration rmdir {name} {fields...}';
+    return 'g:migration {name} {fields...}';
   }
 
   /**
