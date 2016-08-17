@@ -16,6 +16,10 @@ class {{name}} extends Lucid {
   }
 
   {{/table}}
+
+  {{#fields}}
+  {{{.}}}
+  {{/fields}}
 }
 
 module.exports = {{name}}
