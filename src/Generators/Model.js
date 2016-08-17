@@ -72,11 +72,7 @@ class ModelGenerator extends BaseGenerator {
    */
   _createMigration(options, { name, 'fields...': fields }) {
     if (options.migration) {
-      const templateOptions = {
-        connection: options.connection,
-        create: options.table || i.pluralize(i.underscore(name)),
-      };
-      this.run('g:migration', [name, fields], templateOptions);
+      this.run('g:migration', [name, ...fields]);
     }
   }
 
