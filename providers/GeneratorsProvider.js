@@ -1,6 +1,7 @@
 'use strict';
 
 /**
+ * Adapted from
  * adonis-commands
  *
  * (c) Harminder Virk <virk@adonisjs.com>

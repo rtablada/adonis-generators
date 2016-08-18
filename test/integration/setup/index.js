@@ -1,7 +1,8 @@
 'use strict';
 
 /**
- * adonis-commands
+* Adapted from
+* adonis-commands
  *
  * (c) Harminder Virk <virk@adonisjs.com>
  *
