@@ -23,7 +23,6 @@
   },
   "homepage": "https://github.com/rtablada/adonis-generators#readme",
   "peerDependencies": {
-    "adonis-commands": ">2.1.0",
     "adonis-fold": "^3.0.2"
   },
   "devDependencies": {
