@@ -1,18 +1,10 @@
 'use strict';
 
-/**
-* Adapted from
-* adonis-commands
- *
- * (c) Harminder Virk <virk@adonisjs.com>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
-*/
-
 const BaseGenerator = require('./Base');
 const path = require('path');
 const i = require('inflect');
+const toFieldType = require('../helpers/str-to-field-type');
+const toModelProperty = require('../helpers/field-type-to-model-property');
 
 class ModelGenerator extends BaseGenerator {
 
@@ -25,7 +17,7 @@ class ModelGenerator extends BaseGenerator {
   get signature() {
     const migrationsFlag = '{-m,--migration?:Create migration for a given model}';
 
-    return `make:model {name} ${migrationsFlag}`;
+    return `g:model {name} {fields...} ${migrationsFlag}`;
   }
 
   /**
@@ -51,7 +43,10 @@ class ModelGenerator extends BaseGenerator {
     const entity = this._makeEntityName(name, 'model', false, 'singular');
     const toPath = path.join(this.helpers.appPath(), 'Model', `${entity.entityPath}.js`);
     const template = options.template || 'model';
+    const fieldStrs = args['fields...'] || [];
+    const fields = fieldStrs.map(toFieldType).map(toModelProperty).filter((x) => x !== '');
     const templateOptions = {
+      fields,
       name: entity.entityName,
       table: options.table,
       connection: options.connection,
@@ -60,7 +55,7 @@ class ModelGenerator extends BaseGenerator {
     try {
       yield this.write(template, toPath, templateOptions);
       this._success(toPath);
-      this._createMigration(options, name);
+      this._createMigration(options, args);
     } catch (e) {
       this._error(e.message);
     }
@@ -75,13 +70,9 @@ class ModelGenerator extends BaseGenerator {
    *
    * @private
    */
-  _createMigration(options, name) {
+  _createMigration(options, { name, 'fields...': fields }) {
     if (options.migration) {
-      const templateOptions = {
-        connection: options.connection,
-        create: options.table || i.pluralize(i.underscore(name)),
-      };
-      this.run('make:migration', [name], templateOptions);
+      this.run('g:migration', [name, ...fields]);
     }
   }
 
