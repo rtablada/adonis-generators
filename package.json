@@ -1,6 +1,6 @@
 {
   "name": "adonis-generators",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Generator commands for Adonis framework",
   "main": "index.js",
   "directories": {
