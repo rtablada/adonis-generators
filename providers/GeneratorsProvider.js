@@ -16,7 +16,7 @@ class GeneratorsProvider extends ServiceProvider {
 
   constructor() {
     super();
-    this.generators = ['Migration', 'Model', 'Controller', 'JsonApiView'];
+    this.generators = ['Migration', 'Model', 'Controller', 'JsonApiView', 'JsonApiResource'];
   }
 
   * register() {

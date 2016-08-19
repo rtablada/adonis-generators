@@ -27,7 +27,7 @@ function toJsonApiRelation(field) {
   };
 }
 
-class JsonApiGenerator extends BaseGenerator {
+class JsonApiViewGenerator extends BaseGenerator {
 
   /**
    * returns signature to be used by ace
@@ -82,4 +82,4 @@ class JsonApiGenerator extends BaseGenerator {
 
 }
 
-module.exports = JsonApiGenerator;
+module.exports = JsonApiViewGenerator;
