@@ -1,10 +1,10 @@
 'use strict';
 
 {{#api}}
-const {{modelName}} = require('App/Model/{{modelName}}');
+const {{modelName}} = use('App/Model/{{modelName}}');
 {{/api}}
 {{#json}}
-const {{modelName}} = require('App/Model/{{modelName}}');
+const {{modelName}} = use('App/Model/{{modelName}}');
 {{/json}}
 {{#attributes}}
 const attributes = [{{{attributes}}}];

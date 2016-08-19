@@ -16,7 +16,7 @@ class GeneratorsProvider extends ServiceProvider {
 
   constructor() {
     super();
-    this.generators = ['Migration', 'Model', 'Controller'];
+    this.generators = ['Migration', 'Model', 'Controller', 'JsonApiView'];
   }
 
   * register() {
@@ -24,6 +24,7 @@ class GeneratorsProvider extends ServiceProvider {
       this.app.bind(`AdonisGenerators/Generate:${generator}`, (app) => {
         const Helpers = app.use('Adonis/Src/Helpers');
         const Generator = require(`../src/Generators/${generator}`);
+
         return new Generator(Helpers);
       });
     });

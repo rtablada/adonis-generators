@@ -1,0 +1,15 @@
+const JsonApiView = require('adonis-jsonapi/src/JsonApiView');
+
+class {{name}} extends JsonApiView {
+  get attributes() {
+    return [{{{attributes}}}];
+  }
+  {{#relations}}
+
+  {{name}}() {
+    return this.{{type}}('App/Http/JsonApiViews/{{viewName}}', true);
+  }
+  {{/relations}}
+}
+
+module.exports = {{name}};
