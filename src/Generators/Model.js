@@ -44,7 +44,10 @@ class ModelGenerator extends BaseGenerator {
     const toPath = path.join(this.helpers.appPath(), 'Model', `${entity.entityPath}.js`);
     const template = options.template || 'model';
     const fieldStrs = args['fields...'] || [];
-    const fields = fieldStrs.map(toFieldType).map(toModelProperty).filter((x) => x !== '');
+    const fields = fieldStrs
+      .map((field) => toFieldType(field, entity.entityPath))
+      .map(toModelProperty)
+      .filter((x) => x !== '');
     const templateOptions = {
       fields,
       name: entity.entityName,
