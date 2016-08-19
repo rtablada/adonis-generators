@@ -15,12 +15,13 @@ Then in `bootstrap/app.js` make the following changes:
 * In the `aceProviders` array add: `'adonis-generators/providers/GeneratorsProvider',`
 * In the `commands` array add: `'AdonisGenerators/Generate:Migration',`
 * In the `commands` array add: `'AdonisGenerators/Generate:Model',`
+* In the `commands` array add: `'AdonisGenerators/Generate:Controller',`
 
 ## Use - Migrations
 
 To generate a new migration use the following command:
 
-```
+```bash
 ./ace g:migration User email:string password:string
 ```
 
@@ -32,14 +33,14 @@ To see all of the available field types and relations, check out the [field type
 
 To generate a new model use the following command:
 
-```
+```bash
 ./ace g:migration User email:string password:string profile:hasOne:Profile
 ```
 
 This will generate a `User` model in the `app/Model` directory.
 It will also include the indicated `profile` relation:
 
-```
+```js
 profile() {
   return this.hasOne('App/Model/Profile', 'user_id');
 }
@@ -50,6 +51,67 @@ profile() {
 To see all of the available field types and relations, check out the [field types table](#field-types).
 
 Using the `-m` flag will also generate a migration to match the specified model.
+
+## Use - Controllers
+
+To generate a new controller use the following command (note the `-a` which will create an API controller):
+
+```bash
+./ace g:controller User -a email:string password:string profile:hasOne
+```
+
+This will create a full RESTful controller:
+
+```js
+'use strict'
+
+const User = require('App/Model/User');
+
+class UserController {
+
+  * index(request, response) {
+    const users = yield User.with('profile').fetch();
+
+    response.send(users);
+  }
+
+  * store(request, response) {
+    const input = request.only('email', 'password', 'user_id');
+    const user = yield User.create(input);
+
+    response.send(user);
+  }
+
+  * show(request, response) {
+    const id = request.param('id');
+    const user = yield User.with('profile').where({ id }).firstOrFail();
+
+    response.send(user);
+  }
+
+  * update(request, response) {
+    const input = request.only('email', 'password', 'user_id');
+    const id = request.param('id');
+
+    const user = yield User.with('profile').where({ id }).firstOrFail();
+    yield user.update(input);
+
+    response.send(user);
+  }
+
+  * destroy(request, response) {
+    const id = request.param('id');
+    const user = yield User.query().where({ id }).firstOrFail();
+    yield user.delete();
+
+    response.status(204).send();
+  }
+
+}
+
+module.exports = UserController;
+```
+
 
 ## Field Types
 
