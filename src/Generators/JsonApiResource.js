@@ -42,7 +42,7 @@ class JsonApiResourceGenerator extends BaseGenerator {
     this.success('All done!');
 
     const entity = this._makeEntityName(name, 'controller', true);
-    const controllerName = entity.name;
+    const controllerName = entity.entityName;
     const resourceName = inflect.dasherize(inflect.tableize(name));
 
     this.success('Add the following route for your new resource:');
