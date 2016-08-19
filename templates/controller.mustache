@@ -1,0 +1,61 @@
+'use strict'
+
+{{#api}}
+const {{modelName}} = require('App/Model/{{modelName}}');
+{{/api}}
+
+class {{controllerName}} {
+
+{{#resource}}
+  * index(request, response) {
+    {{#api}}
+    const {{pluralCamelCase}} = yield {{modelName}}.with({{{with}}}).fetch();
+
+    response.send({{pluralCamelCase}});
+    {{/api}}
+  }
+
+  * store(request, response) {
+    {{#api}}
+    const input = request.only({{{inputOnly}}});
+    const {{singularCamelCase}} = yield {{modelName}}.create(input);
+
+    response.send({{singularCamelCase}});
+    {{/api}}
+  }
+
+  * show(request, response) {
+    {{#api}}
+    const id = request.param('id');
+    const {{singularCamelCase}} = yield {{modelName}}.with({{{with}}}).where({ id }).firstOrFail();
+
+    response.send({{singularCamelCase}});
+    {{/api}}
+  }
+
+  * update(request, response) {
+    {{#api}}
+    const input = request.only({{{inputOnly}}});
+    const id = request.param('id');
+
+    const {{singularCamelCase}} = yield {{modelName}}.with({{{with}}}).where({ id }).firstOrFail();
+    yield {{singularCamelCase}}.update(input);
+
+    response.send({{singularCamelCase}});
+    {{/api}}
+  }
+
+  * destroy(request, response) {
+    {{#api}}
+    const id = request.param('id');
+    const {{singularCamelCase}} = yield {{modelName}}.query().where({ id }).firstOrFail();
+    yield {{singularCamelCase}}.delete();
+
+    response.status(204).send();
+    {{/api}}
+  }
+{{/resource}}
+
+}
+
+module.exports = {{controllerName}};
