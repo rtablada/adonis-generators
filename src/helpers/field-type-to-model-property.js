@@ -1,5 +1,5 @@
 function relationToModelProperty(fieldType) {
-  const args = `'App/Model/${fieldType.relation.modelName}', '${fieldType.relation.foreignKey}'`;
+  const args = `'App/Model/${fieldType.relation.modelName}', 'id', '${fieldType.relation.foreignKey}'`;
 
   return `${fieldType.name}() {
     return this.${fieldType.relation.type}(${args});
