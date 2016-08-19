@@ -1,8 +1,8 @@
 'use strict';
 
 const BaseGenerator = require('./Base');
-const path = require('path');
-const i = require('inflect');
+
+const inflect = require('i')();
 
 class JsonApiResourceGenerator extends BaseGenerator {
 
@@ -38,6 +38,16 @@ class JsonApiResourceGenerator extends BaseGenerator {
     this.run('g:migration', [name, ...fields]);
     this.run('g:model', [name, ...fields]);
     this.run('g:controller', [name, ...fields], { jsonapi: true });
+
+    this.success('All done!');
+
+    const entity = this._makeEntityName(name, 'controller', true);
+    const controllerName = entity.name;
+    const resourceName = inflect.dasherize(inflect.tableize(name));
+
+    this.success('Add the following route for your new resource:');
+    this.info(`Route.resource('/${resourceName}', ` +
+      `'${controllerName}').except(['create', 'edit']);`);
   }
 
 }
