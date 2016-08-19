@@ -91,7 +91,7 @@ class ControllerGenerator extends BaseGenerator {
       templateOptions.belongsTos = templateOptions.relations
         .filter(({ relation: { type } }) => type === 'belongsTo');
       templateOptions.foreignKeys = templateOptions.belongsTos
-        .map(({ name, relation: { foreignKey } }) => `${foreignKey}: ${name}`);
+        .map(({ name: rName, relation: { foreignKey } }) => `${foreignKey}: ${rName}`);
     }
 
     yield this._wrapWrite('controller', toPath, templateOptions);
