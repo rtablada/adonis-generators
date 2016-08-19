@@ -1,8 +1,14 @@
-'use strict'
+'use strict';
 
 {{#api}}
 const {{modelName}} = require('App/Model/{{modelName}}');
 {{/api}}
+{{#json}}
+const {{modelName}} = require('App/Model/{{modelName}}');
+{{/json}}
+{{#attributes}}
+const attributes = [{{{attributes}}}];
+{{/attributes}}
 
 class {{controllerName}} {
 
@@ -13,6 +19,11 @@ class {{controllerName}} {
 
     response.send({{pluralCamelCase}});
     {{/api}}
+    {{#json}}
+    const {{pluralCamelCase}} = yield {{modelName}}.with({{{with}}}).fetch();
+
+    response.jsonApi('{{modelName}}', {{pluralCamelCase}});
+    {{/json}}
   }
 
   * store(request, response) {
@@ -22,6 +33,20 @@ class {{controllerName}} {
 
     response.send({{singularCamelCase}});
     {{/api}}
+    {{#json}}
+    const input = request.jsonApi.getAttributesSnakeCase(attributes);
+    {{#belongsTo}}
+    const {{.name}} = request.all().data.relationships.{{.name}}.data.id;
+    {{/belongsTo}}
+    const foreignKeys = {
+      {{#foreignKeys}}
+      {{.}},
+      {{/foreignKeys}}
+    };
+    const {{singularCamelCase}} = yield {{modelName}}.create(Object.assign({}, input, foreignKeys));
+
+    response.jsonApi('{{modelName}}', {{singularCamelCase}});
+    {{/json}}
   }
 
   * show(request, response) {
@@ -31,6 +56,12 @@ class {{controllerName}} {
 
     response.send({{singularCamelCase}});
     {{/api}}
+    {{#json}}
+    const id = request.param('id');
+    const {{singularCamelCase}} = yield {{modelName}}.with({{{with}}}).where({ id }).firstOrFail();
+
+    response.jsonApi('{{modelName}}', {{singularCamelCase}});
+    {{/json}}
   }
 
   * update(request, response) {
@@ -43,6 +74,25 @@ class {{controllerName}} {
 
     response.send({{singularCamelCase}});
     {{/api}}
+    {{#json}}
+    const id = request.param('id');
+    request.jsonApi.assertId(id);
+
+    const input = request.jsonApi.getAttributesSnakeCase(attributes);
+    {{#belongsTo}}
+    const {{.name}} = request.all().data.relationships.{{.name}}.data.id;
+    {{/belongsTo}}
+    const foreignKeys = {
+      {{#foreignKeys}}
+      {{.}},
+      {{/foreignKeys}}
+    };
+
+    const {{singularCamelCase}} = yield {{modelName}}.with({{{with}}}).where({ id }).firstOrFail();
+    yield {{singularCamelCase}}.update(Object.assign({}, input, foreignKeys));
+
+    response.send({{singularCamelCase}});
+    {{/json}}
   }
 
   * destroy(request, response) {
@@ -53,6 +103,14 @@ class {{controllerName}} {
 
     response.status(204).send();
     {{/api}}
+    {{#json}}
+    const id = request.param('id');
+
+    const {{singularCamelCase}} = yield {{modelName}}.query().where({ id }).firstOrFail();
+    yield {{singularCamelCase}}.delete();
+
+    response.status(204).send();
+    {{/json}}
   }
 {{/resource}}
 

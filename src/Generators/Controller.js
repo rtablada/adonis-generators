@@ -25,9 +25,10 @@ class ControllerGenerator extends BaseGenerator {
    */
   get signature() {
     const resource = '{-r,--resource?:Create a resourceful Controller}';
-    const api = '{-a,--api?:Create a resourceful Controller}';
+    const api = '{-a,--api?:Create a resourceful API Controller}';
+    const jsonapi = '{-j,--jsonapi?:Create a resourceful JSON API Controller}';
 
-    return `g:controller {name} ${resource} ${api} {fields...}`;
+    return `g:controller {name} ${resource} ${api} ${jsonapi} {fields...}`;
   }
 
   /**
@@ -49,7 +50,7 @@ class ControllerGenerator extends BaseGenerator {
    * @public
    */
   * handle(args, options) {
-    if (options.api) {
+    if (options.api || options.jsonapi) {
       options.resource = true;
     }
 
@@ -60,6 +61,7 @@ class ControllerGenerator extends BaseGenerator {
     const templateOptions = {
       methods: ['index', 'store', 'show', 'update', 'destroy'],
       api: options.api || false,
+      json: options.jsonapi || false,
       resource: options.resource || false,
       controllerName: entity.entityName,
       modelName: inflect.classify(name),
@@ -67,15 +69,29 @@ class ControllerGenerator extends BaseGenerator {
       pluralCamelCase: inflect.pluralize(inflect.camelize(name, false)),
     };
 
-    if (options.api) {
-      const fields = args['fields...'] || [];
-      const fieldTypes = fields.map((field) => toFieldType(field, templateOptions.modelName));
+    const fields = args['fields...'] || [];
+    const fieldTypes = fields.map((field) => toFieldType(field, templateOptions.modelName));
+    templateOptions.with = fieldTypes
+      .filter((field) => field.type === 'relation')
+      .map((x) => `'${x.name}'`)
+      .join(', ');
 
+    if (options.api) {
       templateOptions.inputOnly = fieldTypes.map(toInputAttributeString).join(', ');
-      templateOptions.with = fieldTypes
-        .filter((field) => field.type === 'relation')
-        .map((x) => `'${x.name}'`)
+    }
+
+    if (options.jsonapi) {
+      templateOptions.attributes = fieldTypes
+        .filter(({ type }) => type !== 'relation')
+        .map(({ name: attributeName }) => `'${inflect.dasherize(attributeName)}'`)
         .join(', ');
+
+      templateOptions.relations = fieldTypes
+        .filter(({ type }) => type === 'relation');
+      templateOptions.belongsTos = templateOptions.relations
+        .filter(({ relation: { type } }) => type === 'belongsTo');
+      templateOptions.foreignKeys = templateOptions.belongsTos
+        .map(({ name, relation: { foreignKey } }) => `${foreignKey}: ${name}`);
     }
 
     yield this._wrapWrite('controller', toPath, templateOptions);
