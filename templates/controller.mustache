@@ -91,7 +91,7 @@ class {{controllerName}} {
     const {{singularCamelCase}} = yield {{modelName}}.with({{{with}}}).where({ id }).firstOrFail();
     yield {{singularCamelCase}}.update(Object.assign({}, input, foreignKeys));
 
-    response.send({{singularCamelCase}});
+    response.jsonApi('{{modelName}}', {{singularCamelCase}});
     {{/json}}
   }
 
