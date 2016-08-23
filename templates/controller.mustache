@@ -70,7 +70,8 @@ class {{controllerName}} {
     const id = request.param('id');
 
     const {{singularCamelCase}} = yield {{modelName}}.with({{{with}}}).where({ id }).firstOrFail();
-    yield {{singularCamelCase}}.update(input);
+    {{singularCamelCase}}.fill(input);
+    yield {{singularCamelCase}}.save(input);
 
     response.send({{singularCamelCase}});
     {{/api}}
