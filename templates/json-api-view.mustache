@@ -7,9 +7,13 @@ class {{name}} extends JsonApiView {
   {{#relations}}
 
   {{name}}() {
-    return this.{{type}}('App/Http/JsonApiViews/{{viewName}}', true);
+    return this.{{type}}('App/Http/JsonApiViews/{{viewName}}', {
+      included: true,
+      excludeRelation: '{{fromRelation}}'
+    });
   }
   {{/relations}}
+
 }
 
 module.exports = {{name}};

@@ -2,7 +2,6 @@
 
 const BaseGenerator = require('./Base');
 const path = require('path');
-const i = require('inflect');
 const toFieldType = require('../helpers/str-to-field-type');
 const toModelProperty = require('../helpers/field-type-to-model-property');
 

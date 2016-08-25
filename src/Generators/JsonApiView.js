@@ -19,11 +19,17 @@ const belongsToTypes = [
   'belongsTo',
 ];
 
-function toJsonApiRelation(field) {
+function toJsonApiRelation(field, model) {
+  const isBelongsTo = belongsToTypes.indexOf(field.relation.type) !== -1;
+  const fromRelation = isBelongsTo
+    ? inflect.camelize(inflect.tableize(model), false)
+    : inflect.camelize(model, false);
+
   return {
     name: field.name,
-    type: belongsToTypes.indexOf(field.relation.type) !== -1 ? 'belongsTo' : 'hasMany',
+    type: isBelongsTo ? 'belongsTo' : 'hasMany',
     viewName: field.relation.modelName,
+    fromRelation,
   };
 }
 
@@ -65,7 +71,7 @@ class JsonApiViewGenerator extends BaseGenerator {
     const fieldTypes = fields.map((field) => toFieldType(field, name));
     const relations = fieldTypes
       .filter((field) => field.type === 'relation')
-      .map(toJsonApiRelation);
+      .map((relation) => toJsonApiRelation(relation, name));
     const attributes = fieldTypes
       .filter((field) => field.type !== 'relation')
       .map((x) => `'${x.name}'`)
