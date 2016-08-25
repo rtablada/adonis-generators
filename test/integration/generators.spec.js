@@ -34,12 +34,4 @@ describe('Generators', () => {
       expect(typeof (new UserSchema().down)).to.equal('function');
     });
   });
-
-  context('Model', () => {
-    it('should create a new model', function * () {
-      yield setup.invokeCommand('make:model', ['User'], {});
-      const UserModel = require('./app/Model/User.js');
-      expect(UserModel.name).to.equal('User');
-    });
-  });
 });

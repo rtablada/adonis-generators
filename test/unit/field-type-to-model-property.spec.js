@@ -70,17 +70,17 @@ describe('fieldTypeToModelProperty', () => {
   });
 
   it('should know how to parse belongsTo relationships', () => {
-    expect(toModelProperty(fieldTypes.belongsTo)).to
-      .equal("teacher() {\n    return this.belongsTo('App/Model/User', 'instructor_id');\n  }");
+    expect(toModelProperty(fieldTypes.belongsTo)).to.equal(
+      "teacher() {\n    return this.belongsTo('App/Model/User', 'id', 'instructor_id');\n  }");
   });
 
   it('should know how to parse hasMany relationships', () => {
-    expect(toModelProperty(fieldTypes.hasMany)).to
-      .equal("startups() {\n    return this.hasMany('App/Model/Business', 'pokemon_id');\n  }");
+    expect(toModelProperty(fieldTypes.hasMany)).to.equal(
+      "startups() {\n    return this.hasMany('App/Model/Business', 'id', 'pokemon_id');\n  }");
   });
 
   it('should know how to parse hasOne relationships', () => {
-    expect(toModelProperty(fieldTypes.hasOne)).to
-      .equal("pet() {\n    return this.hasOne('App/Model/Dog', 'dog_id');\n  }");
+    expect(toModelProperty(fieldTypes.hasOne)).to.equal(
+      "pet() {\n    return this.hasOne('App/Model/Dog', 'id', 'dog_id');\n  }");
   });
 });
