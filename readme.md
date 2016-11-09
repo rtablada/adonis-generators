@@ -16,6 +16,8 @@ Then in `bootstrap/app.js` make the following changes:
 * In the `commands` array add: `'AdonisGenerators/Generate:Migration',`
 * In the `commands` array add: `'AdonisGenerators/Generate:Model',`
 * In the `commands` array add: `'AdonisGenerators/Generate:Controller',`
+* In the `commands` array add: `'AdonisGenerators/Generate:JsonApiView',`
+* In the `commands` array add: `'AdonisGenerators/Generate:JsonApiResource',`
 
 ## Use - JSON API Resource
 
