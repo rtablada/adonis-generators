@@ -40,7 +40,7 @@ class {{controllerName}} {
     {{/belongsTo}}
     const foreignKeys = {
       {{#foreignKeys}}
-      {{.}},
+      {{{.}}},
       {{/foreignKeys}}
     };
     const {{singularCamelCase}} = yield {{modelName}}.create(Object.assign({}, input, foreignKeys));
