@@ -92,7 +92,7 @@ class ControllerGenerator extends BaseGenerator {
         .filter(({ relation: { type } }) => type === 'belongsTo');
       templateOptions.foreignKeys = templateOptions.belongsTos
         .map(({ name: rName, relation: { foreignKey } }) =>
-          `${foreignKey}: request.getRelationId('${rName}')`
+          `${foreignKey}: request.jsonApi.getRelationId('${rName}')`
         );
     }
 
