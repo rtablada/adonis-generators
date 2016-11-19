@@ -58,15 +58,17 @@ class ControllerGenerator extends BaseGenerator {
     const entity = this._makeEntityName(name, 'controller', true);
     const toPath = path.join(this.helpers.appPath(), 'Http/Controllers', `${entity.entityPath}.js`);
 
+    const modelName = inflect.demodulize(inflect.classify(name));
+
     const templateOptions = {
       methods: ['index', 'store', 'show', 'update', 'destroy'],
       api: options.api || false,
       json: options.jsonapi || false,
       resource: options.resource || false,
       controllerName: entity.entityName,
-      modelName: inflect.classify(name),
-      singularCamelCase: inflect.camelize(name, false),
-      pluralCamelCase: inflect.pluralize(inflect.camelize(name, false)),
+      modelName,
+      singularCamelCase: inflect.camelize(modelName, false),
+      pluralCamelCase: inflect.pluralize(inflect.camelize(modelName, false)),
     };
 
     const fields = args['fields...'] || [];
