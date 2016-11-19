@@ -90,7 +90,8 @@ class {{controllerName}} {
     };
 
     const {{singularCamelCase}} = yield {{modelName}}.with({{{with}}}).where({ id }).firstOrFail();
-    yield {{singularCamelCase}}.update(Object.assign({}, input, foreignKeys));
+    {{singularCamelCase}}.fill(Object.assign({}, input, foreignKeys));
+    yield {{singularCamelCase}}.save();
 
     response.jsonApi('{{modelName}}', {{singularCamelCase}});
     {{/json}}
